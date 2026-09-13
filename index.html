@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bus Driver</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Dark Overlay -->
+    <div class="overlay"></div>
+
+
+    <!-- Main Content -->
+    <main class="hero">
+
+        <!-- Big Title -->
+        <div class="title">
+            <h1>बस ड्राइवर</h1>
+            <h2>सफर जारी है</h2>
+        </div>
+
+
+        <!-- Floating Buttons -->
+        <div class="buttons">
+
+            <button onclick="playHorn()">
+                📯 हॉर्न
+            </button>
+
+            <button onclick="showRoute()">
+                🛣️ रूट
+            </button>
+
+            <button onclick="shareWebsite()">
+                🔗 शेयर
+            </button>
+
+        </div>
+
+
+        <!-- Music Player -->
+        <div class="music-player">
+
+            <!-- Song Information -->
+            <div class="song-info">
+
+                <div class="album">
+                    🎵
+                </div>
+
+                <div class="song-details">
+                    <h3 id="songTitle">Song 1</h3>
+                    <p id="artist">Bus Driver Radio</p>
+                </div>
+
+            </div>
+
+
+            <!-- Controls -->
+            <div class="controls">
+
+                <button onclick="previousSong()" class="control-btn">
+                    ⏮
+                </button>
+
+                <button onclick="togglePlay()" class="play-btn" id="playButton">
+                    ▶
+                </button>
+
+                <button onclick="nextSong()" class="control-btn">
+                    ⏭
+                </button>
+
+                <button onclick="toggleMute()" class="control-btn">
+                    🔊
+                </button>
+
+            </div>
+
+
+            <!-- Progress -->
+            <div class="progress-area">
+
+                <span id="currentTime">0:00</span>
+
+                <input type="range" id="progress" value="0" min="0" max="100">
+
+                <span id="duration">0:00</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Bottom Text -->
+        <div class="bottom-text">
+
+            <p>contact: busdriver@example.com</p>
+
+            <div class="scroll">
+                SCROLL
+                <br>
+                ↓
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- Route Popup -->
+    <div class="popup" id="routePopup">
+
+        <div class="popup-box">
+
+            <button class="close" onclick="closeRoute()">✕</button>
+
+            <h2>🚌 आज का सफर</h2>
+
+            <p>GORAKHPUR</p>
+            <span>↓</span>
+            <p>LUCKNOW</p>
+            <span>↓</span>
+            <p>DELHI</p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Audio -->
+    <audio id="audio"></audio>
+
+    <audio controls>
+        <source src="music/song1.mp3" type="audio/mpeg">
+        Your browser does not support audio.
+    </audio>
+
+    <audio id="horn">
+        <source src="sounds/horn.mp3" type="audio/mpeg">
+    </audio>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
