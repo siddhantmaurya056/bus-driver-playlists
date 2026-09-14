@@ -66,7 +66,12 @@ function loadSong(index) {
 
     artist.innerText = songs[index].artist;
 
-    progress.value
+    progress.value = 0;
+
+    currentTime.innerText = "0:00";
+    duration.innerText = "0:00";
+
+    audio.load();
 }
 
 
