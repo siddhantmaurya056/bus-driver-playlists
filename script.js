@@ -108,6 +108,37 @@ function loadSong(index) {
 
 // Load first song
 loadSong(0);
+function displaySongs() {
+
+    songList.innerHTML = "";
+
+    songs.forEach((song, index) => {
+
+        const songItem = document.createElement("div");
+
+        songItem.className = "song-item";
+
+        songItem.innerHTML = `
+            <span>🎵 ${index + 1}. ${song.title}</span>
+        `;
+
+        songItem.addEventListener("click", function () {
+
+            loadSong(index);
+
+            audio.play();
+
+            playButton.innerHTML = "⏸";
+
+        });
+
+        songList.appendChild(songItem);
+
+    });
+
+}
+
+displaySongs();
 
 
 // ========================================
