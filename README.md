@@ -1,5 +1,5 @@
-# bus-driver-website
-# 🚌 Bus Driver Website
+# bus-driver-playlists
+# 🚌 Bus Driver Playlist
 
 A fun and interactive **Bus Driver Simulator Website** created using HTML, CSS, and JavaScript.
 
@@ -43,7 +43,7 @@ Bus-Driver-Website/
 
 1. Download or clone this repository.
 2. Open `index.html` in your browser.
-3. Enjoy the Bus Driver Website! 🚌🎵
+3. Enjoy the Bus Driver Playlist! 🚌🎵
 
 ## 🌐 Live Website
 
