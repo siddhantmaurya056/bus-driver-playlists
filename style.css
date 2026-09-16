@@ -500,3 +500,26 @@ body {
     }
 
 }
+#songList {
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.song-item {
+    padding: 12px 15px;
+    margin: 6px 0;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.song-item:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.song-item:active {
+    transform: scale(0.98);
+}
