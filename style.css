@@ -10,7 +10,7 @@ html {
 }
 
 
-body {
+body {https://github.com/siddhantmaurya056/bus-driver-playlists/edit/main/style.css
     font-family: Arial, sans-serif;
 
     background-image: url("images/background.jpg");
@@ -507,13 +507,29 @@ body {
 }
 
 .song-item {
-    padding: 12px 15px;
-    margin: 6px 0;
-    background: rgba(255, 255, 255, 0.12);
+    display: block;
+    width: 100%;
+    padding: 14px 16px;
+    margin: 7px 0;
+
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 10px;
+
     color: white;
+    text-align: left;
     cursor: pointer;
-    transition: 0.2s;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.song-item:hover {
+    background: rgba(0, 0, 0, 0.75);
 }
 
 .song-item:hover {
