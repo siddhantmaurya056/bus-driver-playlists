@@ -27,32 +27,32 @@ const songs = [
         title: "Tumhe Dekhi Meri Ankhen",
         artist: "Bus Driver Radio",
         file: "music/song4.mp3"
-    }
+    },
     {
         title: "Bahut Jatate ho chah humse",
         artist: "Bus Driver Radio",
         file: "music/song5.mp3"
-    }
+    },
 {
-        title: "Dil laga liya maine tumsepyaar karke",
+        title: "Dil laga liya maine tumse pyaar karke",
         artist: "Bus Driver Radio",
         file: "music/song6.mp3"
-    }
+    },
 {
         title: "Barsaat ke mausam mein",
         artist: "Bus Driver Radio",
         file: "music/song7.mp3"
-    }
+    },
 {
         title: "Chunnari chunnari",
         artist: "Bus Driver Radio",
         file: "music/song8.mp3"
-    }
+    },
 {
         title: "Ye dua hai meri raab se",
         artist: "Bus Driver Radio",
         file: "music/song9.mp3"
-    }
+    },
 {
         title: "Aaye ho meri zindagi mein tum bahaar banke",
         artist: "Bus Driver Radio",
