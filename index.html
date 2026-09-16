@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Bus Driver Playlists</title>
+    <title>Bus Driver Playlist</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -65,19 +65,32 @@
             <!-- Controls -->
             <div class="controls">
 
-                <button onclick="previousSong()" class="control-btn">
+                <button
+                    onclick="previousSong()"
+                    class="control-btn"
+                    type="button">
                     ⏮
                 </button>
 
-                <button onclick="togglePlay()" class="play-btn" id="playButton">
+                <button
+                    onclick="togglePlay()"
+                    class="play-btn"
+                    id="playButton"
+                    type="button">
                     ▶
                 </button>
 
-                <button onclick="nextSong()" class="control-btn">
+                <button
+                    onclick="nextSong()"
+                    class="control-btn"
+                    type="button">
                     ⏭
                 </button>
 
-                <button onclick="toggleMute()" class="control-btn">
+                <button
+                    onclick="toggleMute()"
+                    class="control-btn"
+                    type="button">
                     🔊
                 </button>
 
@@ -89,9 +102,31 @@
 
                 <span id="currentTime">0:00</span>
 
-                <input type="range" id="progress" value="0" min="0" max="100">
+                <input
+                    type="range"
+                    id="progress"
+                    value="0"
+                    min="0"
+                    max="100">
 
                 <span id="duration">0:00</span>
+
+            </div>
+
+
+            <!-- Audio Player -->
+            <audio
+                id="audio"
+                preload="metadata">
+            </audio>
+
+
+            <!-- Song List -->
+            <div class="song-list-container">
+
+                <h3>🎵 Song List</h3>
+
+                <div id="songList"></div>
 
             </div>
 
@@ -115,18 +150,29 @@
 
 
     <!-- Route Popup -->
-    <div class="popup" id="routePopup">
+    <div
+        class="popup"
+        id="routePopup">
 
         <div class="popup-box">
 
-            <button class="close" onclick="closeRoute()">✕</button>
+            <button
+                class="close"
+                onclick="closeRoute()"
+                type="button">
+                ✕
+            </button>
 
             <h2>🚌 आज का सफर</h2>
 
             <p>GORAKHPUR</p>
+
             <span>↓</span>
+
             <p>LUCKNOW</p>
+
             <span>↓</span>
+
             <p>DELHI</p>
 
         </div>
@@ -134,16 +180,19 @@
     </div>
 
 
-    <!-- Audio -->
-    <!-- Audio -->
-<audio id="audio" preload="metadata"></audio>
-<div id="songList"></div>
+    <!-- Bus Horn -->
+    <audio
+        id="horn"
+        preload="auto">
 
-<audio id="horn" preload="auto">
-    <source src="sounds/horn.mp3" type="audio/mpeg">
-</audio>
+        <source
+            src="sounds/horn.mp3"
+            type="audio/mpeg">
+
+    </audio>
 
 
+    <!-- JavaScript -->
     <script src="script.js"></script>
 
 </body>
