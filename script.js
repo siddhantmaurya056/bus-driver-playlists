@@ -6,28 +6,59 @@
 // Songs List
 const songs = [
     {
-        title: "Safar Song 1",
+        title: "Ek dil hai",
         artist: "Bus Driver Radio",
         file: "music/song1.mp3"
     },
 
     {
-        title: "Safar Song 2",
+        title: "Hum Tumko Nigaho Mein Iss Tarah Chupa Lenge",
         artist: "Bus Driver Radio",
         file: "music/song2.mp3"
     },
 
     {
-        title: "Safar Song 3",
+        title: "Hamein tumse hua hai pyaar",
         artist: "Bus Driver Radio",
         file: "music/song3.mp3"
     },
 
     {
-        title: "Safar Song 4",
+        title: "Tumhe Dekhi Meri Ankhen",
         artist: "Bus Driver Radio",
         file: "music/song4.mp3"
     }
+    {
+        title: "Bahut Jatate ho chah humse",
+        artist: "Bus Driver Radio",
+        file: "music/song5.mp3"
+    }
+{
+        title: "Dil laga liya maine tumsepyaar karke",
+        artist: "Bus Driver Radio",
+        file: "music/song6.mp3"
+    }
+{
+        title: "Barsaat ke mausam mein",
+        artist: "Bus Driver Radio",
+        file: "music/song7.mp3"
+    }
+{
+        title: "Chunnari chunnari",
+        artist: "Bus Driver Radio",
+        file: "music/song8.mp3"
+    }
+{
+        title: "Ye dua hai meri raab se",
+        artist: "Bus Driver Radio",
+        file: "music/song9.mp3"
+    }
+{
+        title: "Aaye ho meri zindagi mein tum bahaar banke",
+        artist: "Bus Driver Radio",
+        file: "music/song10.mp3"
+    }
+
 ];
 
 
