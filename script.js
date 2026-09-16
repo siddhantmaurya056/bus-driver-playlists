@@ -137,8 +137,38 @@ function displaySongs() {
     });
 
 }
+function displaySongs() {
+
+    songList.innerHTML = "";
+
+    songs.forEach((song, index) => {
+
+        const songItem = document.createElement("button");
+
+        songItem.type = "button";
+        songItem.className = "song-item";
+        songItem.textContent = "🎵 " + (index + 1) + ". " + song.title;
+
+        songItem.onclick = function () {
+
+            loadSong(index);
+
+            audio.play().then(() => {
+                playButton.innerHTML = "⏸";
+            }).catch(error => {
+                console.log("Song play error:", error);
+            });
+
+        };
+
+        songList.appendChild(songItem);
+
+    });
+}
 
 displaySongs();
+```
+
 
 
 // ========================================
