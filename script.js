@@ -57,6 +57,21 @@ const songs = [
         title: "Aaye ho meri zindagi mein tum bahaar banke",
         artist: "Bus Driver Radio",
         file: "music/song10.mp3"
+    },
+    {
+    title: "Aapke pyar me hum sawarne lage",
+        artist: "Bus Driver Radio",
+        file: "music/song11.mp3"
+    },
+    {
+        title: "Aayega maja ab barsaat ka",
+        artist: "Bus Driver Radio",
+        file: "music/song12.mp3"
+    },
+    {
+        title: "Salame-ishq meri jaan",
+        artist: "Bus Driver Radio",
+        file: "music/song13.mp3"
     }
 ];
 
