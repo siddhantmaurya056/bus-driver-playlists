@@ -77,7 +77,7 @@ const songs = [
         title: "Mujhse mohabbat ka izhar karti",
         artist: "Bus Driver Radio",
         file: "music/song14.mp3"
-    }
+    },
 ];
 
 
