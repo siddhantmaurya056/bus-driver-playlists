@@ -72,6 +72,11 @@ const songs = [
         title: "Salame-ishq meri jaan",
         artist: "Bus Driver Radio",
         file: "music/song13.mp3"
+    },
+    {
+        title: "Mujhse mohabbat ka izhar karti",
+        artist: "Bus Driver Radio",
+        file: "music/song14.mp3"
     }
 ];
 
