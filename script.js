@@ -1,210 +1,64 @@
 // ========================================
-// BUS DRIVER PLAYLIST
+// BUS DRIVER - YOUTUBE MUSIC PLAYER
 // ========================================
 
+let player;
+let playerReady = false;
 
-// ========================================
-// SONGS LIST
-// ========================================
+// YouTube Playlist ID
+const PLAYLIST_ID = "PLfaTdxNMZmGM";
 
-const songs = [
-    {
-        title: "Ek dil hai",
-        artist: "Bus Driver Radio",
-        file: "music/song1.mp3"
-    },
-    {
-        title: "Hum Tumko Nigaho Mein Iss Tarah Chupa Lenge",
-        artist: "Bus Driver Radio",
-        file: "music/song2.mp3"
-    },
-    {
-        title: "Hamein tumse hua hai pyaar",
-        artist: "Bus Driver Radio",
-        file: "music/song3.mp3"
-    },
-    {
-        title: "Tumhe Dekhi Meri Ankhen",
-        artist: "Bus Driver Radio",
-        file: "music/song4.mp3"
-    },
-    {
-        title: "Bahut Jatate ho chah humse",
-        artist: "Bus Driver Radio",
-        file: "music/song5.mp3"
-    },
-    {
-        title: "Dil laga liya maine tumse pyaar karke",
-        artist: "Bus Driver Radio",
-        file: "music/song6.mp3"
-    },
-    {
-        title: "Barsaat ke mausam mein",
-        artist: "Bus Driver Radio",
-        file: "music/song7.mp3"
-    },
-    {
-        title: "Chunnari chunnari",
-        artist: "Bus Driver Radio",
-        file: "music/song8.mp3"
-    },
-    {
-        title: "Ye dua hai meri raab se",
-        artist: "Bus Driver Radio",
-        file: "music/song9.mp3"
-    },
-    {
-        title: "Aaye ho meri zindagi mein tum bahaar banke",
-        artist: "Bus Driver Radio",
-        file: "music/song10.mp3"
-    },
-    {
-    title: "Aapke pyar me hum sawarne lage",
-        artist: "Bus Driver Radio",
-        file: "music/song11.mp3"
-    },
-    {
-        title: "Aayega maja ab barsaat ka",
-        artist: "Bus Driver Radio",
-        file: "music/song12.mp3"
-    },
-    {
-        title: "Salame-ishq meri jaan",
-        artist: "Bus Driver Radio",
-        file: "music/song13.mp3"
-    },
-    {
-        title: "Mujhse mohabbat ka izhar karti",
-        artist: "Bus Driver Radio",
-        file: "music/song14.mp3"
-    },
-];
-
-
-// ========================================
-// GET HTML ELEMENTS
-// ========================================
-
-const audio = document.getElementById("audio");
-
+// Elements
 const songTitle = document.getElementById("songTitle");
-
 const artist = document.getElementById("artist");
-
 const playButton = document.getElementById("playButton");
-
 const progress = document.getElementById("progress");
-
 const currentTime = document.getElementById("currentTime");
-
 const duration = document.getElementById("duration");
 
-const songList = document.getElementById("songList");
-
 
 // ========================================
-// CURRENT SONG
+// YOUTUBE PLAYER READY
 // ========================================
 
-let currentSong = 0;
+function onYouTubeIframeAPIReady() {
 
+    player = new YT.Player("youtube-player", {
 
-// ========================================
-// LOAD SONG
-// ========================================
+        height: "1",
+        width: "1",
 
-function loadSong(index) {
+        playerVars: {
+            listType: "playlist",
+            list: PLAYLIST_ID,
+            autoplay: 0,
+            controls: 0,
+            rel: 0
+        },
 
-    currentSong = index;
-
-    audio.src = songs[index].file;
-
-    songTitle.textContent = songs[index].title;
-
-    artist.textContent = songs[index].artist;
-
-    progress.value = 0;
-
-    currentTime.textContent = "0:00";
-
-    duration.textContent = "0:00";
-
-    audio.load();
-
-    updateActiveSong();
-
-}
-
-
-// ========================================
-// DISPLAY SONG LIST
-// ========================================
-
-function displaySongs() {
-
-    songList.innerHTML = "";
-
-    songs.forEach(function(song, index) {
-
-        const songItem = document.createElement("button");
-
-        songItem.type = "button";
-
-        songItem.className = "song-item";
-
-        songItem.textContent =
-            "🎵 " + (index + 1) + ". " + song.title;
-
-
-        songItem.addEventListener("click", function() {
-
-            loadSong(index);
-
-            audio.play()
-                .then(function() {
-
-                    playButton.textContent = "⏸";
-
-                })
-                .catch(function(error) {
-
-                    console.log("Audio play error:", error);
-
-                });
-
-        });
-
-
-        songList.appendChild(songItem);
-
-    });
-
-}
-
-
-// ========================================
-// ACTIVE SONG
-// ========================================
-
-function updateActiveSong() {
-
-    const allSongs =
-        document.querySelectorAll(".song-item");
-
-    allSongs.forEach(function(item, index) {
-
-        if (index === currentSong) {
-
-            item.classList.add("active");
-
-        } else {
-
-            item.classList.remove("active");
-
+        events: {
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange
         }
-
     });
+}
 
+
+// ========================================
+// PLAYER READY
+// ========================================
+
+function onPlayerReady(event) {
+
+    playerReady = true;
+
+    songTitle.innerText = "Bus Driver Playlist";
+    artist.innerText = "YouTube Music";
+
+    currentTime.innerText = "0:00";
+    duration.innerText = "0:00";
+
+    console.log("YouTube Player Ready");
 }
 
 
@@ -214,28 +68,23 @@ function updateActiveSong() {
 
 function togglePlay() {
 
-    if (audio.paused) {
+    if (!playerReady) {
+        alert("YouTube player loading...");
+        return;
+    }
 
-        audio.play()
-            .then(function() {
+    const state = player.getPlayerState();
 
-                playButton.textContent = "⏸";
+    if (state === YT.PlayerState.PLAYING) {
 
-            })
-            .catch(function(error) {
-
-                console.log("Play error:", error);
-
-            });
+        player.pauseVideo();
+        playButton.innerHTML = "▶";
 
     } else {
 
-        audio.pause();
-
-        playButton.textContent = "▶";
-
+        player.playVideo();
+        playButton.innerHTML = "⏸";
     }
-
 }
 
 
@@ -245,28 +94,10 @@ function togglePlay() {
 
 function nextSong() {
 
-    currentSong++;
+    if (!playerReady) return;
 
-    if (currentSong >= songs.length) {
-
-        currentSong = 0;
-
-    }
-
-    loadSong(currentSong);
-
-    audio.play()
-        .then(function() {
-
-            playButton.textContent = "⏸";
-
-        })
-        .catch(function(error) {
-
-            console.log("Next song error:", error);
-
-        });
-
+    player.nextVideo();
+    playButton.innerHTML = "⏸";
 }
 
 
@@ -276,117 +107,99 @@ function nextSong() {
 
 function previousSong() {
 
-    currentSong--;
+    if (!playerReady) return;
 
-    if (currentSong < 0) {
-
-        currentSong = songs.length - 1;
-
-    }
-
-    loadSong(currentSong);
-
-    audio.play()
-        .then(function() {
-
-            playButton.textContent = "⏸";
-
-        })
-        .catch(function(error) {
-
-            console.log("Previous song error:", error);
-
-        });
-
+    player.previousVideo();
+    playButton.innerHTML = "⏸";
 }
 
 
 // ========================================
-// AUTO NEXT SONG
+// PLAYER STATE CHANGE
 // ========================================
 
-audio.addEventListener("ended", function() {
+function onPlayerStateChange(event) {
 
-    nextSong();
+    if (event.data === YT.PlayerState.PLAYING) {
 
-});
-
-
-// ========================================
-// AUDIO PLAY EVENT
-// ========================================
-
-audio.addEventListener("play", function() {
-
-    playButton.textContent = "⏸";
-
-});
-
-
-// ========================================
-// AUDIO PAUSE EVENT
-// ========================================
-
-audio.addEventListener("pause", function() {
-
-    playButton.textContent = "▶";
-
-});
-
-
-// ========================================
-// AUDIO ERROR
-// ========================================
-
-audio.addEventListener("error", function() {
-
-    console.log("Unable to load:",
-        songs[currentSong].file);
-
-});
-
-
-// ========================================
-// UPDATE PROGRESS
-// ========================================
-
-audio.addEventListener("timeupdate", function() {
-
-    if (!audio.duration) {
-
-        return;
+        playButton.innerHTML = "⏸";
 
     }
 
-    const percentage =
-        (audio.currentTime / audio.duration) * 100;
+    else if (
+        event.data === YT.PlayerState.PAUSED ||
+        event.data === YT.PlayerState.ENDED
+    ) {
 
-    progress.value = percentage;
-
-    currentTime.textContent =
-        formatTime(audio.currentTime);
-
-    duration.textContent =
-        formatTime(audio.duration);
-
-});
-
-
-// ========================================
-// PROGRESS BAR CLICK
-// ========================================
-
-progress.addEventListener("input", function() {
-
-    if (!audio.duration) {
-
-        return;
-
+        playButton.innerHTML = "▶";
     }
 
-    audio.currentTime =
-        (progress.value / 100) * audio.duration;
+    updateSongInfo();
+}
 
+
+// ========================================
+// SONG INFORMATION
+// ========================================
+
+function updateSongInfo() {
+
+    if (!playerReady) return;
+
+    setTimeout(function () {
+
+        const videoData = player.getVideoData();
+
+        if (videoData && videoData.title) {
+
+            songTitle.innerText = videoData.title;
+
+            artist.innerText =
+                videoData.author || "YouTube Music";
+        }
+
+    }, 500);
+}
+
+
+// ========================================
+// PROGRESS BAR
+// ========================================
+
+setInterval(function () {
+
+    if (!playerReady) return;
+
+    const total = player.getDuration();
+    const current = player.getCurrentTime();
+
+    if (!total || total <= 0) return;
+
+    const percent = (current / total) * 100;
+
+    progress.value = percent;
+
+    currentTime.innerText = formatTime(current);
+    duration.innerText = formatTime(total);
+
+}, 500);
+
+
+// ========================================
+// CLICK PROGRESS BAR
+// ========================================
+
+progress.addEventListener("input", function () {
+
+    if (!playerReady) return;
+
+    const total = player.getDuration();
+
+    if (!total) return;
+
+    const newTime = (progress.value / 100) * total;
+
+    player.seekTo(newTime, true);
 });
 
 
@@ -396,37 +209,36 @@ progress.addEventListener("input", function() {
 
 function formatTime(time) {
 
-    if (isNaN(time)) {
+    if (isNaN(time)) return "0:00";
 
-        return "0:00";
+    let minutes = Math.floor(time / 60);
 
-    }
-
-    const minutes =
-        Math.floor(time / 60);
-
-    let seconds =
-        Math.floor(time % 60);
+    let seconds = Math.floor(time % 60);
 
     if (seconds < 10) {
-
         seconds = "0" + seconds;
-
     }
 
     return minutes + ":" + seconds;
-
 }
 
 
 // ========================================
-// MUTE
+// MUTE / UNMUTE
 // ========================================
 
 function toggleMute() {
 
-    audio.muted = !audio.muted;
+    if (!playerReady) return;
 
+    if (player.isMuted()) {
+
+        player.unMute();
+
+    } else {
+
+        player.mute();
+    }
 }
 
 
@@ -436,18 +248,11 @@ function toggleMute() {
 
 function playHorn() {
 
-    const horn =
-        document.getElementById("horn");
+    const horn = document.getElementById("horn");
 
     horn.currentTime = 0;
 
-    horn.play()
-        .catch(function(error) {
-
-            console.log("Horn error:", error);
-
-        });
-
+    horn.play();
 }
 
 
@@ -457,19 +262,13 @@ function playHorn() {
 
 function showRoute() {
 
-    document
-        .getElementById("routePopup")
-        .style.display = "flex";
-
+    document.getElementById("routePopup").style.display = "flex";
 }
 
 
 function closeRoute() {
 
-    document
-        .getElementById("routePopup")
-        .style.display = "none";
-
+    document.getElementById("routePopup").style.display = "none";
 }
 
 
@@ -483,7 +282,7 @@ function shareWebsite() {
 
         navigator.share({
 
-            title: "Bus Driver Playlist",
+            title: "Bus Driver",
 
             text: "Come along for the journey! 🚌",
 
@@ -496,16 +295,5 @@ function shareWebsite() {
         alert(
             "Share this website using your browser's share option."
         );
-
     }
-
 }
-
-
-// ========================================
-// INITIALIZE PLAYER
-// ========================================
-
-loadSong(0);
-
-displaySongs();
