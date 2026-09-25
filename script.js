@@ -1,9 +1,12 @@
+// ========================================
+// BUS DRIVER PLAYLIST - MUSIC PLAYER
+// ========================================
+
 
 // ========================================
-// BUS DRIVER MUSIC PLAYER
+// SONG DATA
 // ========================================
 
-// Songs
 const songs = [
     {
         title: "Ek Dil Hai",
@@ -25,21 +28,38 @@ const songs = [
         artist: "Bus Driver Radio",
         file: "music/song4.mp3"
     },
+
+    // Agar aur songs hain to yahan add karo
+    // {
+    //     title: "Song Name",
+    //     artist: "Bus Driver Radio",
+    //     file: "music/song5.mp3"
+    // }
 ];
 
 
 // ========================================
-// ELEMENTS
+// HTML ELEMENTS
 // ========================================
 
 const audio = document.getElementById("audio");
 
 const songTitle = document.getElementById("songTitle");
 const artist = document.getElementById("artist");
+
 const playButton = document.getElementById("playButton");
+
 const progress = document.getElementById("progress");
+
 const currentTime = document.getElementById("currentTime");
 const duration = document.getElementById("duration");
+
+const songList = document.getElementById("songList");
+
+
+// ========================================
+// CURRENT SONG
+// ========================================
 
 let currentSong = 0;
 
@@ -55,24 +75,102 @@ function loadSong(index) {
     audio.src = songs[index].file;
 
     songTitle.textContent = songs[index].title;
+
     artist.textContent = songs[index].artist;
 
     progress.value = 0;
 
     currentTime.textContent = "0:00";
+
     duration.textContent = "0:00";
 
     audio.load();
+
+    updateSongList();
 
     console.log("Loading:", songs[index].file);
 }
 
 
 // ========================================
-// FIRST SONG
+// CREATE SONG LIST
 // ========================================
 
-loadSong(0);
+function renderSongList() {
+
+    songList.innerHTML = "";
+
+    songs.forEach(function(song, index) {
+
+        const button = document.createElement("button");
+
+        button.className = "song-item";
+
+        button.type = "button";
+
+        button.textContent =
+            (index + 1) + ". " + song.title;
+
+
+        // Song click
+        button.addEventListener("click", function() {
+
+            loadSong(index);
+
+            audio.play()
+                .then(function() {
+
+                    playButton.textContent = "⏸";
+
+                    updateSongList();
+
+                })
+                .catch(function(error) {
+
+                    console.error(
+                        "Song Play Error:",
+                        error
+                    );
+
+                });
+
+        });
+
+
+        songList.appendChild(button);
+
+    });
+
+
+    updateSongList();
+}
+
+
+// ========================================
+// UPDATE ACTIVE SONG
+// ========================================
+
+function updateSongList() {
+
+    const items =
+        document.querySelectorAll(".song-item");
+
+
+    items.forEach(function(item, index) {
+
+        if (index === currentSong) {
+
+            item.classList.add("active");
+
+        } else {
+
+            item.classList.remove("active");
+
+        }
+
+    });
+
+}
 
 
 // ========================================
@@ -84,17 +182,20 @@ function togglePlay() {
     if (audio.paused) {
 
         audio.play()
-            .then(function () {
+            .then(function() {
 
                 playButton.textContent = "⏸";
 
             })
-            .catch(function (error) {
+            .catch(function(error) {
 
-                console.error("Play Error:", error);
+                console.error(
+                    "Play Error:",
+                    error
+                );
 
                 alert(
-                    "Song play nahi ho raha. Pehle song1.mp3 ka path check karo."
+                    "Song play nahi ho raha. MP3 file ka path check karo."
                 );
 
             });
@@ -104,7 +205,9 @@ function togglePlay() {
         audio.pause();
 
         playButton.textContent = "▶";
+
     }
+
 }
 
 
@@ -116,23 +219,32 @@ function nextSong() {
 
     currentSong++;
 
+
     if (currentSong >= songs.length) {
+
         currentSong = 0;
+
     }
+
 
     loadSong(currentSong);
 
+
     audio.play()
-        .then(function () {
+        .then(function() {
 
             playButton.textContent = "⏸";
 
         })
-        .catch(function (error) {
+        .catch(function(error) {
 
-            console.error("Next Song Error:", error);
+            console.error(
+                "Next Song Error:",
+                error
+            );
 
         });
+
 }
 
 
@@ -144,98 +256,117 @@ function previousSong() {
 
     currentSong--;
 
+
     if (currentSong < 0) {
+
         currentSong = songs.length - 1;
+
     }
+
 
     loadSong(currentSong);
 
+
     audio.play()
-        .then(function () {
+        .then(function() {
 
             playButton.textContent = "⏸";
 
         })
-        .catch(function (error) {
+        .catch(function(error) {
 
-            console.error("Previous Song Error:", error);
+            console.error(
+                "Previous Song Error:",
+                error
+            );
 
         });
+
 }
 
 
 // ========================================
-// AUTO NEXT
+// AUTO NEXT SONG
 // ========================================
 
-audio.addEventListener("ended", function () {
+audio.addEventListener(
+    "ended",
+    function() {
 
-    nextSong();
+        nextSong();
 
-});
+    }
+);
 
 
 // ========================================
-// PROGRESS UPDATE
+// TIME UPDATE
 // ========================================
 
-audio.addEventListener("timeupdate", function () {
+audio.addEventListener(
+    "timeupdate",
+    function() {
 
-    if (!audio.duration) return;
+        if (!audio.duration) {
 
-    const percent =
-        (audio.currentTime / audio.duration) * 100;
+            return;
 
-    progress.value = percent;
+        }
 
-    currentTime.textContent =
-        formatTime(audio.currentTime);
 
-    duration.textContent =
-        formatTime(audio.duration);
+        const percent =
+            (audio.currentTime / audio.duration) * 100;
 
-});
+
+        progress.value = percent;
+
+
+        currentTime.textContent =
+            formatTime(audio.currentTime);
+
+
+        duration.textContent =
+            formatTime(audio.duration);
+
+    }
+);
 
 
 // ========================================
 // AUDIO LOADED
 // ========================================
 
-audio.addEventListener("loadedmetadata", function () {
+audio.addEventListener(
+    "loadedmetadata",
+    function() {
 
-    duration.textContent =
-        formatTime(audio.duration);
+        duration.textContent =
+            formatTime(audio.duration);
 
-});
-
-
-// ========================================
-// AUDIO ERROR
-// ========================================
-
-audio.addEventListener("error", function () {
-
-    console.error("Audio Error:", audio.error);
-
-    alert(
-        "MP3 file load nahi hui. music folder aur file name check karo."
-    );
-
-});
+    }
+);
 
 
 // ========================================
 // PROGRESS BAR
 // ========================================
 
-progress.addEventListener("input", function () {
+progress.addEventListener(
+    "input",
+    function() {
 
-    if (!audio.duration) return;
+        if (!audio.duration) {
 
-    audio.currentTime =
-        (progress.value / 100) * audio.duration;
+            return;
 
-});
+        }
+
+
+        audio.currentTime =
+            (progress.value / 100) * audio.duration;
+
+    }
+);
 
 
 // ========================================
@@ -245,36 +376,62 @@ progress.addEventListener("input", function () {
 function formatTime(time) {
 
     if (isNaN(time)) {
+
         return "0:00";
+
     }
+
 
     const minutes =
         Math.floor(time / 60);
 
+
     let seconds =
         Math.floor(time % 60);
 
+
     if (seconds < 10) {
+
         seconds = "0" + seconds;
+
     }
 
+
     return minutes + ":" + seconds;
+
 }
 
 
 // ========================================
-// MUTE
+// MUTE / UNMUTE
 // ========================================
 
 function toggleMute() {
 
     audio.muted = !audio.muted;
 
+
+    const muteButton =
+        document.querySelector(
+            ".controls button:nth-child(4)"
+        );
+
+
+    if (audio.muted) {
+
+        muteButton.textContent = "🔇";
+
+    } else {
+
+        muteButton.textContent = "🔊";
+
+    }
+
 }
 
 
 // ========================================
-// HORN
+// BUS HORN
 // ========================================
 
 function playHorn() {
@@ -282,12 +439,17 @@ function playHorn() {
     const horn =
         document.getElementById("horn");
 
+
     horn.currentTime = 0;
 
-    horn.play()
-        .catch(function (error) {
 
-            console.error("Horn Error:", error);
+    horn.play()
+        .catch(function(error) {
+
+            console.error(
+                "Horn Error:",
+                error
+            );
 
         });
 
@@ -300,22 +462,24 @@ function playHorn() {
 
 function showRoute() {
 
-    document.getElementById("routePopup")
-        .style.display = "flex";
+    document.getElementById(
+        "routePopup"
+    ).style.display = "flex";
 
 }
 
 
 function closeRoute() {
 
-    document.getElementById("routePopup")
-        .style.display = "none";
+    document.getElementById(
+        "routePopup"
+    ).style.display = "none";
 
 }
 
 
 // ========================================
-// SHARE
+// SHARE WEBSITE
 // ========================================
 
 function shareWebsite() {
@@ -326,9 +490,11 @@ function shareWebsite() {
 
             title: "Bus Driver Playlist",
 
-            text: "Come along for the journey! 🚌",
+            text:
+                "Come along for the journey! 🚌🎵",
 
-            url: window.location.href
+            url:
+                window.location.href
 
         });
 
@@ -339,5 +505,14 @@ function shareWebsite() {
         );
 
     }
+
 }
-```
+
+
+// ========================================
+// INITIALIZE PLAYER
+// ========================================
+
+renderSongList();
+
+loadSong(0);
