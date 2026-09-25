@@ -1,9 +1,9 @@
-```javascript
+
 // ========================================
 // BUS DRIVER MUSIC PLAYER
 // ========================================
 
-// Songs List
+// Songs
 const songs = [
     {
         title: "Ek Dil Hai",
@@ -24,20 +24,15 @@ const songs = [
         title: "Tumhe Dekhi Meri Aankhen",
         artist: "Bus Driver Radio",
         file: "music/song4.mp3"
-    }
+    },
 ];
-
-
-// ========================================
-// AUDIO
-// ========================================
-
-const audio = document.getElementById("audio");
 
 
 // ========================================
 // ELEMENTS
 // ========================================
+
+const audio = document.getElementById("audio");
 
 const songTitle = document.getElementById("songTitle");
 const artist = document.getElementById("artist");
@@ -45,11 +40,6 @@ const playButton = document.getElementById("playButton");
 const progress = document.getElementById("progress");
 const currentTime = document.getElementById("currentTime");
 const duration = document.getElementById("duration");
-
-
-// ========================================
-// CURRENT SONG
-// ========================================
 
 let currentSong = 0;
 
@@ -64,21 +54,24 @@ function loadSong(index) {
 
     audio.src = songs[index].file;
 
-    songTitle.innerText = songs[index].title;
-
-    artist.innerText = songs[index].artist;
+    songTitle.textContent = songs[index].title;
+    artist.textContent = songs[index].artist;
 
     progress.value = 0;
 
-    currentTime.innerText = "0:00";
-
-    duration.innerText = "0:00";
+    currentTime.textContent = "0:00";
+    duration.textContent = "0:00";
 
     audio.load();
+
+    console.log("Loading:", songs[index].file);
 }
 
 
-// First Song Load
+// ========================================
+// FIRST SONG
+// ========================================
+
 loadSong(0);
 
 
@@ -91,18 +84,26 @@ function togglePlay() {
     if (audio.paused) {
 
         audio.play()
-            .then(() => {
-                playButton.innerHTML = "⏸";
+            .then(function () {
+
+                playButton.textContent = "⏸";
+
             })
-            .catch(() => {
-                alert("Song play nahi ho raha. File path check karo.");
+            .catch(function (error) {
+
+                console.error("Play Error:", error);
+
+                alert(
+                    "Song play nahi ho raha. Pehle song1.mp3 ka path check karo."
+                );
+
             });
 
     } else {
 
         audio.pause();
 
-        playButton.innerHTML = "▶";
+        playButton.textContent = "▶";
     }
 }
 
@@ -122,8 +123,15 @@ function nextSong() {
     loadSong(currentSong);
 
     audio.play()
-        .then(() => {
-            playButton.innerHTML = "⏸";
+        .then(function () {
+
+            playButton.textContent = "⏸";
+
+        })
+        .catch(function (error) {
+
+            console.error("Next Song Error:", error);
+
         });
 }
 
@@ -143,14 +151,21 @@ function previousSong() {
     loadSong(currentSong);
 
     audio.play()
-        .then(() => {
-            playButton.innerHTML = "⏸";
+        .then(function () {
+
+            playButton.textContent = "⏸";
+
+        })
+        .catch(function (error) {
+
+            console.error("Previous Song Error:", error);
+
         });
 }
 
 
 // ========================================
-// AUTO NEXT SONG
+// AUTO NEXT
 // ========================================
 
 audio.addEventListener("ended", function () {
@@ -161,7 +176,7 @@ audio.addEventListener("ended", function () {
 
 
 // ========================================
-// UPDATE PROGRESS
+// PROGRESS UPDATE
 // ========================================
 
 audio.addEventListener("timeupdate", function () {
@@ -173,29 +188,44 @@ audio.addEventListener("timeupdate", function () {
 
     progress.value = percent;
 
-    currentTime.innerText =
+    currentTime.textContent =
         formatTime(audio.currentTime);
 
-    duration.innerText =
+    duration.textContent =
         formatTime(audio.duration);
 
 });
 
 
 // ========================================
-// WHEN SONG LOADED
+// AUDIO LOADED
 // ========================================
 
 audio.addEventListener("loadedmetadata", function () {
 
-    duration.innerText =
+    duration.textContent =
         formatTime(audio.duration);
 
 });
 
 
 // ========================================
-// CLICK PROGRESS BAR
+// AUDIO ERROR
+// ========================================
+
+audio.addEventListener("error", function () {
+
+    console.error("Audio Error:", audio.error);
+
+    alert(
+        "MP3 file load nahi hui. music folder aur file name check karo."
+    );
+
+});
+
+
+// ========================================
+// PROGRESS BAR
 // ========================================
 
 progress.addEventListener("input", function () {
@@ -218,9 +248,11 @@ function formatTime(time) {
         return "0:00";
     }
 
-    let minutes = Math.floor(time / 60);
+    const minutes =
+        Math.floor(time / 60);
 
-    let seconds = Math.floor(time % 60);
+    let seconds =
+        Math.floor(time % 60);
 
     if (seconds < 10) {
         seconds = "0" + seconds;
@@ -231,7 +263,7 @@ function formatTime(time) {
 
 
 // ========================================
-// MUTE / UNMUTE
+// MUTE
 // ========================================
 
 function toggleMute() {
@@ -252,7 +284,12 @@ function playHorn() {
 
     horn.currentTime = 0;
 
-    horn.play();
+    horn.play()
+        .catch(function (error) {
+
+            console.error("Horn Error:", error);
+
+        });
 
 }
 
@@ -278,7 +315,7 @@ function closeRoute() {
 
 
 // ========================================
-// SHARE WEBSITE
+// SHARE
 // ========================================
 
 function shareWebsite() {
@@ -287,7 +324,7 @@ function shareWebsite() {
 
         navigator.share({
 
-            title: "Bus Driver",
+            title: "Bus Driver Playlist",
 
             text: "Come along for the journey! 🚌",
 
@@ -302,6 +339,5 @@ function shareWebsite() {
         );
 
     }
-
 }
 ```
