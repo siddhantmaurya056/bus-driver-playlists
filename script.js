@@ -28,13 +28,56 @@ const songs = [
         artist: "Bus Driver Radio",
         file: "music/song4.mp3"
     },
-
-    // Agar aur songs hain to yahan add karo
-    // {
-    //     title: "Song Name",
-    //     artist: "Bus Driver Radio",
-    //     file: "music/song5.mp3"
-    // }
+    {
+        title: "Bahut jatate ho chah humse",
+        artist: "Bus Driver Radio",
+       file: "music/song5.mp3"
+    },
+    {
+        title: "Dil laga liya maine tumse pyaar karke",
+        artist: "Bus Driver Radio",
+       file: "music/song6.mp3"
+    },
+    {
+        title: "Barsaat ke mausam mein",
+        artist: "Bus Driver Radio",
+       file: "music/song7.mp3"
+    },
+    {
+        title: "Chunnari Chunnari",
+        artist: "Bus Driver Radio",
+       file: "music/song8.mp3"
+    },
+    {
+        title: "Yeh dua hai meri rab se",
+        artist: "Bus Driver Radio",
+       file: "music/song9.mp3"
+    },
+    {
+        title: "Aaye ho meri jindagi me tum bahaar banke",
+        artist: "Bus Driver Radio",
+       file: "music/song10.mp3"
+    },
+    {
+        title: "Apke pyaar me hum sawarne lage",
+        artist: "Bus Driver Radio",
+       file: "music/song11.mp3"
+    },
+    {
+        title: "aayega maja ab barsaat ka",
+        artist: "Bus Driver Radio",
+       file: "music/song12.mp3"
+    },
+    {
+        title: "Salame ishq meeri jaan",
+        artist: "Bus Driver Radio",
+       file: "music/song13.mp3"
+    },
+    {
+        title: "Mujhse mohabbat ka izhar karti",
+        artist: "Bus Driver Radio",
+       file: "music/song14.mp3"
+    },
 ];
 
 
