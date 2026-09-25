@@ -1,14 +1,44 @@
+```javascript
 // ========================================
-// BUS DRIVER - YOUTUBE MUSIC PLAYER
+// BUS DRIVER MUSIC PLAYER
 // ========================================
 
-let player;
-let playerReady = false;
+// Songs List
+const songs = [
+    {
+        title: "Ek Dil Hai",
+        artist: "Bus Driver Radio",
+        file: "music/song1.mp3"
+    },
+    {
+        title: "Hum Tumko Nigahon Mein",
+        artist: "Bus Driver Radio",
+        file: "music/song2.mp3"
+    },
+    {
+        title: "Hamein Tumse Hua Hai Pyaar",
+        artist: "Bus Driver Radio",
+        file: "music/song3.mp3"
+    },
+    {
+        title: "Tumhe Dekhi Meri Aankhen",
+        artist: "Bus Driver Radio",
+        file: "music/song4.mp3"
+    }
+];
 
-// YouTube Playlist ID
-const PLAYLIST_ID = "PLfaTdxNMZmGM";
 
-// Elements
+// ========================================
+// AUDIO
+// ========================================
+
+const audio = document.getElementById("audio");
+
+
+// ========================================
+// ELEMENTS
+// ========================================
+
 const songTitle = document.getElementById("songTitle");
 const artist = document.getElementById("artist");
 const playButton = document.getElementById("playButton");
@@ -18,48 +48,38 @@ const duration = document.getElementById("duration");
 
 
 // ========================================
-// YOUTUBE PLAYER READY
+// CURRENT SONG
 // ========================================
 
-function onYouTubeIframeAPIReady() {
-
-    player = new YT.Player("youtube-player", {
-
-        height: "1",
-        width: "1",
-
-        playerVars: {
-            listType: "playlist",
-            list: PLAYLIST_ID,
-            autoplay: 0,
-            controls: 0,
-            rel: 0
-        },
-
-        events: {
-            onReady: onPlayerReady,
-            onStateChange: onPlayerStateChange
-        }
-    });
-}
+let currentSong = 0;
 
 
 // ========================================
-// PLAYER READY
+// LOAD SONG
 // ========================================
 
-function onPlayerReady(event) {
+function loadSong(index) {
 
-    playerReady = true;
+    currentSong = index;
 
-    songTitle.innerText = "Bus Driver Playlist";
-    artist.innerText = "YouTube Music";
+    audio.src = songs[index].file;
+
+    songTitle.innerText = songs[index].title;
+
+    artist.innerText = songs[index].artist;
+
+    progress.value = 0;
 
     currentTime.innerText = "0:00";
+
     duration.innerText = "0:00";
 
-    console.log("YouTube Player Ready");
+    audio.load();
 }
+
+
+// First Song Load
+loadSong(0);
 
 
 // ========================================
@@ -68,22 +88,21 @@ function onPlayerReady(event) {
 
 function togglePlay() {
 
-    if (!playerReady) {
-        alert("YouTube player loading...");
-        return;
-    }
+    if (audio.paused) {
 
-    const state = player.getPlayerState();
-
-    if (state === YT.PlayerState.PLAYING) {
-
-        player.pauseVideo();
-        playButton.innerHTML = "▶";
+        audio.play()
+            .then(() => {
+                playButton.innerHTML = "⏸";
+            })
+            .catch(() => {
+                alert("Song play nahi ho raha. File path check karo.");
+            });
 
     } else {
 
-        player.playVideo();
-        playButton.innerHTML = "⏸";
+        audio.pause();
+
+        playButton.innerHTML = "▶";
     }
 }
 
@@ -94,10 +113,18 @@ function togglePlay() {
 
 function nextSong() {
 
-    if (!playerReady) return;
+    currentSong++;
 
-    player.nextVideo();
-    playButton.innerHTML = "⏸";
+    if (currentSong >= songs.length) {
+        currentSong = 0;
+    }
+
+    loadSong(currentSong);
+
+    audio.play()
+        .then(() => {
+            playButton.innerHTML = "⏸";
+        });
 }
 
 
@@ -107,82 +134,64 @@ function nextSong() {
 
 function previousSong() {
 
-    if (!playerReady) return;
+    currentSong--;
 
-    player.previousVideo();
-    playButton.innerHTML = "⏸";
-}
-
-
-// ========================================
-// PLAYER STATE CHANGE
-// ========================================
-
-function onPlayerStateChange(event) {
-
-    if (event.data === YT.PlayerState.PLAYING) {
-
-        playButton.innerHTML = "⏸";
-
+    if (currentSong < 0) {
+        currentSong = songs.length - 1;
     }
 
-    else if (
-        event.data === YT.PlayerState.PAUSED ||
-        event.data === YT.PlayerState.ENDED
-    ) {
+    loadSong(currentSong);
 
-        playButton.innerHTML = "▶";
-    }
-
-    updateSongInfo();
+    audio.play()
+        .then(() => {
+            playButton.innerHTML = "⏸";
+        });
 }
 
 
 // ========================================
-// SONG INFORMATION
+// AUTO NEXT SONG
 // ========================================
 
-function updateSongInfo() {
+audio.addEventListener("ended", function () {
 
-    if (!playerReady) return;
+    nextSong();
 
-    setTimeout(function () {
-
-        const videoData = player.getVideoData();
-
-        if (videoData && videoData.title) {
-
-            songTitle.innerText = videoData.title;
-
-            artist.innerText =
-                videoData.author || "YouTube Music";
-        }
-
-    }, 500);
-}
+});
 
 
 // ========================================
-// PROGRESS BAR
+// UPDATE PROGRESS
 // ========================================
 
-setInterval(function () {
+audio.addEventListener("timeupdate", function () {
 
-    if (!playerReady) return;
+    if (!audio.duration) return;
 
-    const total = player.getDuration();
-    const current = player.getCurrentTime();
-
-    if (!total || total <= 0) return;
-
-    const percent = (current / total) * 100;
+    const percent =
+        (audio.currentTime / audio.duration) * 100;
 
     progress.value = percent;
 
-    currentTime.innerText = formatTime(current);
-    duration.innerText = formatTime(total);
+    currentTime.innerText =
+        formatTime(audio.currentTime);
 
-}, 500);
+    duration.innerText =
+        formatTime(audio.duration);
+
+});
+
+
+// ========================================
+// WHEN SONG LOADED
+// ========================================
+
+audio.addEventListener("loadedmetadata", function () {
+
+    duration.innerText =
+        formatTime(audio.duration);
+
+});
 
 
 // ========================================
@@ -191,15 +200,11 @@ setInterval(function () {
 
 progress.addEventListener("input", function () {
 
-    if (!playerReady) return;
+    if (!audio.duration) return;
 
-    const total = player.getDuration();
+    audio.currentTime =
+        (progress.value / 100) * audio.duration;
 
-    if (!total) return;
-
-    const newTime = (progress.value / 100) * total;
-
-    player.seekTo(newTime, true);
 });
 
 
@@ -209,7 +214,9 @@ progress.addEventListener("input", function () {
 
 function formatTime(time) {
 
-    if (isNaN(time)) return "0:00";
+    if (isNaN(time)) {
+        return "0:00";
+    }
 
     let minutes = Math.floor(time / 60);
 
@@ -229,16 +236,8 @@ function formatTime(time) {
 
 function toggleMute() {
 
-    if (!playerReady) return;
+    audio.muted = !audio.muted;
 
-    if (player.isMuted()) {
-
-        player.unMute();
-
-    } else {
-
-        player.mute();
-    }
 }
 
 
@@ -248,11 +247,13 @@ function toggleMute() {
 
 function playHorn() {
 
-    const horn = document.getElementById("horn");
+    const horn =
+        document.getElementById("horn");
 
     horn.currentTime = 0;
 
     horn.play();
+
 }
 
 
@@ -262,13 +263,17 @@ function playHorn() {
 
 function showRoute() {
 
-    document.getElementById("routePopup").style.display = "flex";
+    document.getElementById("routePopup")
+        .style.display = "flex";
+
 }
 
 
 function closeRoute() {
 
-    document.getElementById("routePopup").style.display = "none";
+    document.getElementById("routePopup")
+        .style.display = "none";
+
 }
 
 
@@ -295,5 +300,8 @@ function shareWebsite() {
         alert(
             "Share this website using your browser's share option."
         );
+
     }
+
 }
+```
