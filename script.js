@@ -78,6 +78,41 @@ const songs = [
         artist: "Bus Driver Radio",
        file: "music/song14.mp3"
     },
+    {
+        title: "Mohabbat kar gail ankhiya",
+        artist: "Pawan Singh",
+       file: "music/song15.mp3"
+    },
+    {
+        title: "Ab tere dil me hum aa gaye",
+        artist: "Bus Driver Radio",
+       file: "music/song16.mp3"
+    },
+    {
+        title: "Dil Ne yeh kaha hai dil se",
+        artist: "Bus Driver Radio",
+       file: "music/song17.mp3"
+    },
+    {
+        title: "Muhwa odhani se bandk ke aaiha",
+        artist: "Pawan Singh",
+       file: "music/song18.mp3"
+    },
+    {
+        title: "Jo bhi kasmein khai thi humne",
+        artist: "Bus Driver Radio",
+       file: "music/song19.mp3"
+    },
+    {
+        title: "Ae ho kareja",
+        artist: "Pawan Singh",
+       file: "music/song20.mp3"
+    },
+    {
+        title: "Ladki badi anjani hai",
+        artist: "Bus Driver Radio",
+       file: "music/song21.mp3"
+    },
 ];
 
 
